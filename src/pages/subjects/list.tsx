@@ -47,7 +47,7 @@ const SubjectListPage = () => {
       },
       {
         id: "department",
-        accessorKey: "department",
+        accessorKey: "department.name",
         size: 150,
         header: () => <p className="column-title">Department</p>,
         cell: ({ getValue }) => (
@@ -132,7 +132,7 @@ const SubjectListPage = () => {
       <h1 className="page-title">Subjects</h1>
 
       <div className="intro-row">
-        <p>Quick access to essential metrics adn manegement tools.</p>
+        <p>Quick access to essential metrics and manegement tools.</p>
 
         <div className="actions-row">
           <div className="search-field">
