@@ -21,7 +21,7 @@ export const ROLE_OPTIONS = [
 
 export const DEPARTMENTS = [
   "Computer Science",
-  "Mathmatics",
+  "Mathematics",
   "Physics",
   "Chemistry",
   "Biology",
@@ -30,7 +30,7 @@ export const DEPARTMENTS = [
   "Economics",
   "Business Administration",
   "Engineering",
-  "Psycology",
+  "Psychology",
   "Sociology",
   "Political Science",
   "Philosophy",
