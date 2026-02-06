@@ -133,7 +133,7 @@ const ClassCreate = () => {
                 <FormField 
                   control={control}
                   name="bannerUrl"
-                  render={({ field }) => (
+                  render={({ field }: { field: any }) => (
                     <FormItem>
                       <FormLabel>
                         Banner Image <span className="text-orange-600">*</span>
@@ -176,7 +176,7 @@ const ClassCreate = () => {
                 <FormField 
                   control={control}
                   name="name"
-                  render={({ field }) => (
+                  render={({ field }: { field: any }) => (
                     <FormItem>
                       <FormLabel>
                         Class Name <span className="text-orange-600">*</span>
@@ -196,7 +196,7 @@ const ClassCreate = () => {
                   <FormField 
                     control={control}
                     name="subjectId"
-                    render={({ field }) => (
+                    render={({ field }: { field: any }) => (
                       <FormItem>
                         <FormLabel>
                           Subject <span className="text-orange-600">*</span>
@@ -232,7 +232,7 @@ const ClassCreate = () => {
                    <FormField 
                     control={control}
                     name="teacherId"
-                    render={({ field }) => (
+                    render={({ field }: { field: any }) => (
                       <FormItem>
                         <FormLabel>
                           Teacher <span className="text-orange-600">*</span>
@@ -265,7 +265,7 @@ const ClassCreate = () => {
                   <FormField 
                     control={control}
                     name="capacity"
-                    render={({ field }) => (
+                    render={({ field }: { field: any }) => (
                       <FormItem>
                         <FormLabel>
                           Capacity <span className="text-orange-600">*</span>
@@ -293,7 +293,7 @@ const ClassCreate = () => {
                   <FormField 
                     control={control}
                     name="status"
-                    render={({ field }) => (
+                    render={({ field }: { field: any }) => (
                       <FormItem>
                         <FormLabel>
                           Status <span className="text-orange-600">*</span>
@@ -321,7 +321,7 @@ const ClassCreate = () => {
                 <FormField 
                   control={control}
                   name="description"
-                  render={({ field }) => (
+                  render={({ field }: { field: any }) => (
                     <FormItem>
                       <FormLabel>
                         Description <span className="text-orange-600">*</span>

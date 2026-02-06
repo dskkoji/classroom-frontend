@@ -2,8 +2,10 @@ import * as z from 'zod'
 
 export const facultySchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
-  emails: z.string().email(),
-  role: z.enum(['admin', 'teacher', 'student']),
+  email: z.string().email("Invalid email address"),
+  role: z.enum(['admin', 'teacher', 'student'], {
+    required_error: "Please select a role"
+  }),
   department: z.string(),
   image: z.string().optional(),
   imageCldPubId: z.string().optional(),
@@ -18,7 +20,6 @@ export const subjectSchema = z.object({
   department: z
     .string()
     .min(2, "Subject department must be at least 2 characters")
-    
 })
 
 export const scheduleSchema = z.object({
@@ -49,6 +50,9 @@ export const classSchema = z.object({
     })
     .min(1, "Capacity must be at least 1"),
   status: z.enum(["active", "inactive"]),
+  bannerUrl: z
+    .string({ required_error: "Class banner is required" })
+    .min(1, "Class banner is required "),
   bannerCldPubId: z
     .string({ required_error: "Banner reference is required" })
     .min(1, "Banner reference is required"),

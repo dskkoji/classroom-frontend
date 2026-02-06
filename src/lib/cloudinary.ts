@@ -22,7 +22,7 @@ export const bannerPhoto = (imageCldPubId: string, name: string) => {
       .image(imageCldPubId)
 
       .resize(
-        fill().width(12000).height(297)
+        fill().width(1200).height(297)
       )
 
       .delivery(format("auto"))
