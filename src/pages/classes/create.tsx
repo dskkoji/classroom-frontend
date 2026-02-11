@@ -2,23 +2,17 @@ import { useForm } from '@refinedev/react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  FormControl
 } from '@/components/ui/form'
-
-import { Separator } from '@/components/ui/separator'
 
 import {
   Select,
@@ -35,14 +29,12 @@ import { Textarea } from '@/components/ui/textarea'
 import { useBack, useList } from '@refinedev/core'
 import { Loader2 } from 'lucide-react'
 import { classSchema } from '@/lib/schema'
-
+import UploadWidget from '@/components/upload-widget'
 import { Subject, User } from '@/types'
 import z from 'zod'
+import { FocusProvider } from 'react-day-picker'
 
-import UploadWidget from '@/components/upload-widget'
-
-
-const ClassCreate = () => {
+const ClassesCreate = () => {
   const back = useBack()
 
   const form = useForm({
@@ -65,16 +57,14 @@ const ClassCreate = () => {
 
   const bannerPublicId = form.watch("bannerCldPubId")
 
-
   const onSubmit = async (values: z.infer<typeof classSchema>) => {
     try {
       await onFinish(values)
-    } catch (e) {
-      console.error("Error creating class:", e)
-    }
+    } catch (error) {
+      console.error("Error creating classes:", error)
+     }
   }
 
-  // Fetch subjects list
   const { query: subjectsQuery } = useList<Subject>({
     resource: "subjects",
     pagination: {
@@ -82,18 +72,13 @@ const ClassCreate = () => {
     }
   })
 
-  // Fetch teachers list
   const { query: teachersQuery } = useList<User>({
     resource: "users",
     filters: [
-      {
-        field: "role",
-        operator: "eq",
-        value: "teacher"
-      }
+      { field: "role", operator: "eq", value: "teacher" }
     ],
     pagination: {
-      pageSize: 100
+      pageSize: 100,
     }
   })
 
@@ -102,17 +87,15 @@ const ClassCreate = () => {
 
   const subjects = subjectsQuery.data?.data || []
   const subjectsLoading = subjectsQuery.isLoading
-  
+
   return (
     <CreateView className="class-view">
       <Breadcrumb />
 
-      <h1 className="page-title">Craate a Class</h1>
+      <h1 className="page-title">Create a Class</h1>
       <div className="intro-row">
-        <p>Provide the required information below to add a class.</p>
-        <Button onClick={() => back()}>
-          Go Back
-        </Button>
+          <p>Provide the required information below to add a class.</p>
+          <Button onClick={() => back()} >Go Back</Button>
       </div>
 
       <Separator />
@@ -136,32 +119,34 @@ const ClassCreate = () => {
                   render={({ field }: { field: any }) => (
                     <FormItem>
                       <FormLabel>
-                        Banner Image <span className="text-orange-600">*</span>
+                        Banner Image <span>*</span>
                       </FormLabel>
                       <FormControl>
-                       <UploadWidget 
-                        value={field.value 
-                            ? { url: field.value, publicId: bannerPublicId ?? '' } 
-                            : null
+                        <UploadWidget 
+                          value={
+                            field.value
+                             ? {
+                              url: field.value,
+                              publicId: bannerPublicId ?? ""
+                             }
+                             : null
                           }
-                        onChange={(file) => {
-                          if (file) {
-                            field.onChange(file.url)
-                            form.setValue(
-                              "bannerCldPubId", 
-                              file.publicId,
-                              { shouldValidate: true, shouldDirty: true }
-                            )
-                          } else {
-                            field.onChange("")
-                            form.setValue(
-                              "bannerCldPubId",
-                              "",
-                              { shouldValidate: true, shouldDirty: true }
-                            )
-                          }
-                        }}
-                       />
+                          onChange={(file) => {
+                            if (file) {
+                              field.onChange(file.url)
+                              form.setValue("bannerCldPubId", file.publicId, {
+                                shouldValidate: true,
+                                shouldDirty: true
+                              })
+                            } else {
+                              field.onChange("")
+                              form.setValue("bannerCldPubId", "", {
+                                shouldValidate: true,
+                                shouldDirty: true,
+                              })
+                            }
+                          }}
+                        />
                       </FormControl>
                       <FormMessage />
                       {errors.bannerCldPubId && !errors.bannerUrl && (
@@ -176,10 +161,10 @@ const ClassCreate = () => {
                 <FormField 
                   control={control}
                   name="name"
-                  render={({ field }: { field: any }) => (
+                  render={({ field }:{ field: any }) => (
                     <FormItem>
                       <FormLabel>
-                        Class Name <span className="text-orange-600">*</span>
+                      Class Name <span className="text-orange-600">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input 
@@ -210,7 +195,7 @@ const ClassCreate = () => {
                         >
                           <FormControl>
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Select a subject"  />
+                              <SelectValue placeholder="Select a subject" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -219,7 +204,7 @@ const ClassCreate = () => {
                                 key={subject.id}
                                 value={subject.id.toString()}
                               >
-                                {subject.name}.({subject.code})
+                                {subject.name} ({subject.code})
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -229,7 +214,7 @@ const ClassCreate = () => {
                     )}
                   />
 
-                   <FormField 
+                  <FormField 
                     control={control}
                     name="teacherId"
                     render={({ field }: { field: any }) => (
@@ -249,7 +234,10 @@ const ClassCreate = () => {
                           </FormControl>
                           <SelectContent>
                             {teachers.map((teacher) => (
-                              <SelectItem key={teacher.id} value={teacher.id}>
+                              <SelectItem
+                                key={teacher.id}
+                                value={teacher.id.toString()}
+                              >
                                 {teacher.name}
                               </SelectItem>
                             ))}
@@ -258,7 +246,7 @@ const ClassCreate = () => {
                         <FormMessage />
                       </FormItem>
                     )}
-                   /> 
+                  />
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -279,7 +267,7 @@ const ClassCreate = () => {
                               const value = e.target.value
                               field.onChange(value ? Number(value) : undefined)
                             }}
-                            value={(field.value as number | undefined)}
+                            value={(field.value as number | undefined) ?? ""}
                             name={field.name}
                             ref={field.ref}
                             onBlur={field.onBlur}
@@ -289,7 +277,6 @@ const ClassCreate = () => {
                       </FormItem>
                     )}
                   />
-
                   <FormField 
                     control={control}
                     name="status"
@@ -304,7 +291,7 @@ const ClassCreate = () => {
                         >
                           <FormControl>
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Select status" />
+                              <SelectValue placeholder="Select status"  />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -328,24 +315,21 @@ const ClassCreate = () => {
                       </FormLabel>
                       <FormControl>
                         <Textarea 
-                          placeholder="Brief description about the class"
+                          placeholder="Brief descrption about the class"
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
-
                 <Separator />
-
                 <Button type="submit" size="lg" className="w-full">
                   {isSubmitting ? (
                     <div className="flex gap-1">
                       <span>Creating Class...</span>
                       <Loader2 className="inline-block ml-2 animate-spin" />
                     </div>
-                  ) : (
+                  ): (
                     "Create Class"
                   )}
                 </Button>
@@ -358,4 +342,4 @@ const ClassCreate = () => {
   )
 }
 
-export default ClassCreate
+export default ClassesCreate

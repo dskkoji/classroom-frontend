@@ -47,7 +47,6 @@ const options: CreateDataProviderOptions = {
 
       return params
     },
-
     mapResponse: async (response) => {
       if (!response.ok) throw await buildHttpError(response)
 
@@ -60,7 +59,18 @@ const options: CreateDataProviderOptions = {
       const payload: ListResponse = await response.clone().json()
       return payload.pagination?.total ?? payload.data?.length ?? 0;
     }
-  }
+  },
+  create: {
+    getEndpoint: ({ resource }) => resource,
+
+    buildBodyParams: async ({ variables }) => variables,
+
+    mapResponse: async (response) => {
+      const json: CreateResponse = await response.json()
+
+      return json.data ?? []
+    }
+  } 
 }
 
 const { dataProvider } = createDataProvider(BACKEND_BASE_URL, options)
