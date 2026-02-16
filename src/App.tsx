@@ -21,6 +21,7 @@ import SubjectsCreate from "./pages/subjects/create";
 
 import ClassesList from './pages/classes/list'
 import ClassesCreate from './pages/classes/create'
+import ClassesShow from './pages/classes/show'
 function App() {
   return (
     <BrowserRouter>
@@ -52,8 +53,9 @@ function App() {
                   name: 'classes',
                   list: '/classes',
                   create: '/classes/create',
+                  show: '/classes/show/:id',
                   meta: { label: 'Classes', icon: <GraduationCap />}
-                }
+                },
               ]}
             >
               <Routes>
@@ -70,6 +72,7 @@ function App() {
                     <Route path="classes">
                         <Route index element={<ClassesList />} />
                         <Route path="create" element={<ClassesCreate />} />
+                        <Route path="show/:id" element={<ClassesShow />} />
                     </Route>
                 </Route>
               </Routes>

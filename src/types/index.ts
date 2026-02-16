@@ -4,7 +4,7 @@ export type Subject = {
   code: string;
   description: string;
   department: string;
-  createdAt: string;
+  createdAt?: string;
  }
 
  export type ListResponse<T = unknown> = {
@@ -104,6 +104,7 @@ export type ClassDetails = {
   capacity: number;
   courseCode: string;
   courseName: string;
+  bannerUrl?: string;
   bannerCldPubId?: string;
   subject?: Subject;
   teacher?: User;
